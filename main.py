@@ -4,13 +4,35 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import cv2
+import matplotlib.pyplot as plt
 
+image = cv2.imread("zdjecie.jpg")
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+if image is None:
+    print("Błąd: nie znaleziono zdjecia")
+    exit()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+plt.imshow(image_rgb)
+plt.axis("off")
+plt.show()
+
+height, width = image.shape[:2]
+new_size = (width // 2, height // 2)
+
+resized = cv2.resize(image, new_size)
+
+gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
+
+rotated = cv2.rotate(gray, cv2.ROTATE_90_CLOCKWISE)
+
+plt.figure(figsize=(5,5))
+plt.imshow(rotated, cmap="gray")
+plt.title("(obrót: 90°, szary: 50%)")
+plt.axis("off")
+plt.show()
+
+print("Macierz obrazu:")
+print(rotated)
